@@ -86,6 +86,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rating = intval($_POST['rating'] ?? 0);
     $comment = trim($_POST['comment'] ?? '');
     $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Please enter a valid email address.'
+        ]);
+        exit;
+    }
 
     if ($rating < 1 || $rating > 5) {
         echo json_encode([
@@ -131,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $review = [
         'id' => uniqid(),
         'name' => htmlspecialchars($name, ENT_QUOTES, 'UTF-8'),
+        'email' => htmlspecialchars($email, ENT_QUOTES, 'UTF-8'),
         'rating' => $rating,
         'comment' => htmlspecialchars($comment, ENT_QUOTES, 'UTF-8'),
         'sentiment' => getSentiment($rating),
@@ -172,6 +182,7 @@ function sendReviewNotification($review) {
     $body = "New review submitted on FluentLanguage.net:\n\n";
     $body .= "Rating: {$review['rating']}/5 stars {$sentiment_emoji}\n";
     $body .= "Name: " . ($review['name'] ?: 'Anonymous') . "\n";
+    $body .= "Email: {$review['email']}\n";
     $body .= "Date: {$review['created_at']}\n\n";
     $body .= "Review:\n{$review['comment']}\n";
 

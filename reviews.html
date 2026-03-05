@@ -121,14 +121,23 @@
 
                         <!-- Section 1: Basic Info -->
                         <div class="form-step">
-                            <h3 class="form-step-title">1. Basic Info (Optional)</h3>
+                            <h3 class="form-step-title">1. Basic Info</h3>
                             <div class="form-group">
-                                <label for="reviewer-name">Name *</label>
+                                <label for="reviewer-name">Name <span class="step-optional">(Optional)</span></label>
                                 <div class="input-with-icon">
                                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                                     </svg>
                                     <input type="text" id="reviewer-name" name="name" placeholder="Your full name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewer-email">Email <span class="step-required">*</span></label>
+                                <div class="input-with-icon">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    <input type="email" id="reviewer-email" name="email" placeholder="your@email.com" required>
                                 </div>
                             </div>
                         </div>
