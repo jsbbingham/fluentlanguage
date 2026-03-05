@@ -60,22 +60,57 @@
         <section class="leave-review-section" id="write-review">
             <div class="container">
                 <div class="review-form-card">
-                    <!-- Header with portrait -->
-                    <div class="review-form-header">
-                        <div class="review-portrait" aria-hidden="true">
-                            <div class="portrait-leaves">
-                                <span class="leaf leaf-1"></span>
-                                <span class="leaf leaf-2"></span>
-                                <span class="leaf leaf-3"></span>
-                                <span class="leaf leaf-4"></span>
-                                <span class="leaf leaf-5"></span>
-                                <span class="leaf leaf-6"></span>
-                            </div>
-                            <div class="portrait-ring">
-                                <div class="portrait-circle">IB</div>
-                            </div>
-                            <div class="portrait-badge">★</div>
+                    <!-- Botanical SVG decoration -->
+                    <div class="botanical-decoration" aria-hidden="true">
+                        <svg viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg" class="botanical-svg">
+                            <!-- Main vine stem flowing from portrait area down-right -->
+                            <path d="M160 100 C170 130, 200 140, 220 160 S260 200, 250 240 S220 280, 240 320 S270 350, 280 370" stroke="#C5CBB8" stroke-width="1.2" fill="none" opacity="0.7"/>
+                            <!-- Secondary vine curving left and up -->
+                            <path d="M140 90 C120 70, 90 80, 70 60 S40 30, 30 20" stroke="#C5CBB8" stroke-width="1" fill="none" opacity="0.5"/>
+                            <!-- Third vine going right -->
+                            <path d="M180 95 C200 85, 230 90, 260 75 S290 60, 310 55" stroke="#C5CBB8" stroke-width="1" fill="none" opacity="0.5"/>
+                            <!-- Vine going down-left -->
+                            <path d="M130 110 C110 140, 80 150, 60 180 S30 210, 20 240" stroke="#C5CBB8" stroke-width="1" fill="none" opacity="0.4"/>
+
+                            <!-- Leaves along main vine -->
+                            <ellipse cx="200" cy="145" rx="12" ry="6" transform="rotate(-30 200 145)" fill="#C5CBB8" opacity="0.45"/>
+                            <ellipse cx="205" cy="150" rx="11" ry="5" transform="rotate(-60 205 150)" fill="#B8C4A8" opacity="0.35"/>
+                            <ellipse cx="240" cy="190" rx="14" ry="7" transform="rotate(20 240 190)" fill="#C5CBB8" opacity="0.4"/>
+                            <ellipse cx="235" cy="195" rx="12" ry="6" transform="rotate(-15 235 195)" fill="#B8C4A8" opacity="0.3"/>
+                            <ellipse cx="245" cy="250" rx="13" ry="6" transform="rotate(-40 245 250)" fill="#C5CBB8" opacity="0.4"/>
+                            <ellipse cx="240" cy="255" rx="11" ry="5.5" transform="rotate(10 240 255)" fill="#B8C4A8" opacity="0.3"/>
+                            <ellipse cx="250" cy="310" rx="12" ry="6" transform="rotate(30 250 310)" fill="#C5CBB8" opacity="0.35"/>
+                            <ellipse cx="255" cy="340" rx="10" ry="5" transform="rotate(-20 255 340)" fill="#B8C4A8" opacity="0.3"/>
+
+                            <!-- Leaves on secondary vines -->
+                            <ellipse cx="100" cy="70" rx="10" ry="5" transform="rotate(40 100 70)" fill="#C5CBB8" opacity="0.4"/>
+                            <ellipse cx="60" cy="50" rx="9" ry="4.5" transform="rotate(-20 60 50)" fill="#B8C4A8" opacity="0.35"/>
+                            <ellipse cx="250" cy="80" rx="11" ry="5.5" transform="rotate(-25 250 80)" fill="#C5CBB8" opacity="0.4"/>
+                            <ellipse cx="290" cy="65" rx="10" ry="5" transform="rotate(15 290 65)" fill="#B8C4A8" opacity="0.35"/>
+
+                            <!-- Leaves on down-left vine -->
+                            <ellipse cx="90" cy="155" rx="11" ry="5.5" transform="rotate(35 90 155)" fill="#C5CBB8" opacity="0.35"/>
+                            <ellipse cx="50" cy="195" rx="10" ry="5" transform="rotate(-30 50 195)" fill="#B8C4A8" opacity="0.3"/>
+
+                            <!-- Small accent dots like buds -->
+                            <circle cx="210" cy="135" r="2" fill="#C5CBB8" opacity="0.5"/>
+                            <circle cx="255" cy="200" r="2" fill="#C5CBB8" opacity="0.4"/>
+                            <circle cx="230" cy="270" r="2" fill="#C5CBB8" opacity="0.4"/>
+                            <circle cx="75" cy="55" r="1.5" fill="#C5CBB8" opacity="0.4"/>
+                            <circle cx="270" cy="70" r="1.5" fill="#C5CBB8" opacity="0.4"/>
+                        </svg>
+                    </div>
+
+                    <!-- Portrait circle with badge -->
+                    <div class="review-portrait" aria-hidden="true">
+                        <div class="portrait-ring">
+                            <div class="portrait-circle">IB</div>
                         </div>
+                        <div class="portrait-badge">★</div>
+                    </div>
+
+                    <!-- Header -->
+                    <div class="review-form-header">
                         <h2>Leave a Review</h2>
                         <p class="review-intro">Your feedback helps others know what to expect. Thank you for taking the time to share your experience.</p>
                         <p class="review-thanks">Thank you for sharing your experience with Isela!</p>
@@ -119,7 +154,7 @@
                         <!-- Section 3: Experience -->
                         <div class="form-step">
                             <h3 class="form-step-title">3. Share Your Experience *</h3>
-                            <div class="form-group">
+                            <div class="form-group textarea-group">
                                 <textarea id="review-text" name="comment" rows="5" required placeholder="Share your experience working with Isela..." maxlength="2000"></textarea>
                                 <div class="char-counter"><span id="char-count">0</span>/2000</div>
                             </div>
