@@ -12,13 +12,13 @@
     Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
-# PHP processing for API
+# PHP processing via PHP-FPM
 <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
+    SetHandler "proxy:unix:/var/opt/remi/php83/run/php-fpm/fluentl.sock|fcgi://localhost"
 </FilesMatch>
 
 # Block access to sensitive files
-<FilesMatch "\.(env|json|log|conf|md)$">
+<FilesMatch "\.(env|json|log|conf|md|gitignore|gitattributes)$">
     Require all denied
 </FilesMatch>
 
