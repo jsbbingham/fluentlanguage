@@ -60,45 +60,80 @@
         <section class="leave-review-section" id="write-review">
             <div class="container">
                 <div class="review-form-card">
-                    <h2>Write a Review</h2>
-                    <p>Share your experience working with Isela</p>
-                    
-                    <form id="review-form" class="review-form">
-                        <div class="form-group">
-                            <label for="reviewer-name">Your Name (optional)</label>
-                            <input type="text" id="reviewer-name" name="name" placeholder="e.g., John Smith">
+                    <!-- Header with portrait -->
+                    <div class="review-form-header">
+                        <div class="review-portrait" aria-hidden="true">
+                            <div class="portrait-leaves">
+                                <span class="leaf leaf-1"></span>
+                                <span class="leaf leaf-2"></span>
+                                <span class="leaf leaf-3"></span>
+                                <span class="leaf leaf-4"></span>
+                                <span class="leaf leaf-5"></span>
+                                <span class="leaf leaf-6"></span>
+                            </div>
+                            <div class="portrait-ring">
+                                <div class="portrait-circle">IB</div>
+                            </div>
+                            <div class="portrait-badge">★</div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label>Your Rating *</label>
-                            <div class="star-rating-input">
-                                <input type="radio" id="star5" name="rating" value="5" required>
-                                <label for="star5" title="5 stars - Excellent">★</label>
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4" title="4 stars - Very Good">★</label>
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3" title="3 stars - Good">★</label>
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2" title="2 stars - Fair">★</label>
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1" title="1 star - Poor">★</label>
+                        <h2>Leave a Review</h2>
+                        <p class="review-intro">Your feedback helps others know what to expect. Thank you for taking the time to share your experience.</p>
+                        <p class="review-thanks">Thank you for sharing your experience with Isela!</p>
+                    </div>
+
+                    <form id="review-form" class="review-form">
+                        <input type="hidden" name="action" value="submit">
+
+                        <!-- Section 1: Basic Info -->
+                        <div class="form-step">
+                            <h3 class="form-step-title">1. Basic Info (Optional)</h3>
+                            <div class="form-group">
+                                <label for="reviewer-name">Name *</label>
+                                <div class="input-with-icon">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                                    </svg>
+                                    <input type="text" id="reviewer-name" name="name" placeholder="Your full name">
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="review-text">Your Review *</label>
-                            <textarea id="review-text" name="comment" rows="5" required placeholder="Tell us about your experience working with Isela..."></textarea>
+
+                        <!-- Section 2: Rating -->
+                        <div class="form-step">
+                            <h3 class="form-step-title">2. Your Rating *</h3>
+                            <input type="hidden" name="rating" id="rating-value" value="0">
+                            <div class="star-rating-bar" role="radiogroup" aria-label="Rating">
+                                <span class="rating-star" data-value="1" role="radio" aria-label="1 star" tabindex="0">★</span>
+                                <span class="rating-star" data-value="2" role="radio" aria-label="2 stars" tabindex="0">★</span>
+                                <span class="rating-star" data-value="3" role="radio" aria-label="3 stars" tabindex="0">★</span>
+                                <span class="rating-star" data-value="4" role="radio" aria-label="4 stars" tabindex="0">★</span>
+                                <span class="rating-star" data-value="5" role="radio" aria-label="5 stars" tabindex="0">★</span>
+                            </div>
+                            <div class="rating-scale-labels">
+                                <span>1 – Poor</span>
+                                <span>3 – Average</span>
+                                <span>5 – Excellent</span>
+                            </div>
                         </div>
-                        
-                        <!-- Honeypot field for spam prevention -->
-                        <div class="hp-field" style="display:none;">
+
+                        <!-- Section 3: Experience -->
+                        <div class="form-step">
+                            <h3 class="form-step-title">3. Share Your Experience *</h3>
+                            <div class="form-group">
+                                <textarea id="review-text" name="comment" rows="5" required placeholder="Share your experience working with Isela..." maxlength="2000"></textarea>
+                                <div class="char-counter"><span id="char-count">0</span>/2000</div>
+                            </div>
+                        </div>
+
+                        <!-- Honeypot -->
+                        <div style="display:none;">
                             <label>Website</label>
                             <input type="text" name="website" tabindex="-1" autocomplete="off">
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Review</button>
+
+                        <button type="submit" class="btn-submit-review">SUBMIT REVIEW</button>
                     </form>
-                    
+
                     <div id="form-message" class="form-message" style="display:none;"></div>
                 </div>
             </div>

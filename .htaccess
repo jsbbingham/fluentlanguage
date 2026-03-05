@@ -8,9 +8,21 @@
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
 # PHP processing for API
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
 </FilesMatch>
+
+# Block access to sensitive files
+<FilesMatch "\.(env|json|log|conf|md)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to config.php directly
+<Files "config.php">
+    Require all denied
+</Files>

@@ -4,82 +4,22 @@
  * Handles contact form submissions using Resend API
  */
 
-// Load configuration
-require_once '/home/fluentl/config/env.php';
+require_once __DIR__ . '/config.php';
 
-// Configuration
-define('DATA_DIR', '/home/fluentl/data');
-define('RESEND_API_URL', 'https://api.resend.com/emails');
-
-// Enable CORS
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+// Set CORS and content type
+setCorsHeaders();
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Content-Type: application/json');
+
+// Handle preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 
 // Create data directory if needed
 if (!is_dir(DATA_DIR)) {
     mkdir(DATA_DIR, 0755, true);
-}
-
-// Rate limiting
-$rate_limit_file = DATA_DIR . '/contact_rate_limit.json';
-
-function checkContactRateLimit($ip, $file, $max = 3) {
-    $now = time();
-    $data = file_exists($file) ? json_decode(file_get_contents($file), true) : [];
-    
-    // Initialize IP array if not exists
-    if (!isset($data[$ip])) {
-        $data[$ip] = [];
-    }
-    
-    // Clean old entries (older than 1 hour) for this IP
-    $data[$ip] = array_filter($data[$ip], function($timestamp) use ($now) {
-        return ($now - $timestamp) < 3600;
-    });
-    
-    // Re-index array after filter
-    $data[$ip] = array_values($data[$ip]);
-    
-    $count = count($data[$ip]);
-    
-    if ($count >= $max) {
-        return false;
-    }
-    
-    $data[$ip][] = $now;
-    file_put_contents($file, json_encode($data));
-    
-    return true;
-}
-
-function sendEmailViaResend($to, $subject, $text, $replyTo = null) {
-    $payload = [
-        'from' => 'FluentLanguage.net <noreply@send.fluentlanguage.net>',
-        'to' => [$to],
-        'subject' => $subject,
-        'text' => $text
-    ];
-    
-    if ($replyTo) {
-        $payload['reply_to'] = $replyTo;
-    }
-    
-    $ch = curl_init(RESEND_API_URL);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . RESEND_API_KEY,
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-    
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    return $httpCode >= 200 && $httpCode < 300;
 }
 
 // Only allow POST
@@ -91,6 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// CSRF check
+$csrf_token = $_POST['csrf_token'] ?? '';
+if (!validateCsrfToken($csrf_token)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid form submission. Please reload the page and try again.'
+    ]);
+    exit;
+}
+
 // Honeypot check
 if (!empty($_POST['website'])) {
     echo json_encode(['success' => true]);
@@ -98,8 +48,9 @@ if (!empty($_POST['website'])) {
 }
 
 // Rate limit check
+$rate_limit_file = DATA_DIR . '/contact_rate_limit.json';
 $client_ip = $_SERVER['REMOTE_ADDR'];
-if (!checkContactRateLimit($client_ip, $rate_limit_file)) {
+if (!checkRateLimit($client_ip, $rate_limit_file, 3)) {
     echo json_encode([
         'success' => false,
         'message' => 'Too many submissions. Please try again later.'
@@ -115,24 +66,25 @@ $message = trim($_POST['message'] ?? '');
 
 $errors = [];
 
-if (empty($name)) {
-    $errors[] = 'Name is required';
+if (empty($name) || strlen($name) > 200) {
+    $errors[] = 'Name is required (max 200 characters)';
 }
 
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Valid email is required';
 }
 
-if (empty($subject)) {
-    $errors[] = 'Please select a subject';
+$allowed_subjects = ['translation', 'interpretation', 'legal', 'medical', 'other'];
+if (empty($subject) || !in_array($subject, $allowed_subjects, true)) {
+    $errors[] = 'Please select a valid subject';
 }
 
-if (empty($message)) {
-    $errors[] = 'Message is required';
-}
-
-if (strlen($message) < 10) {
+if (empty($message) || strlen($message) < 10) {
     $errors[] = 'Message must be at least 10 characters';
+}
+
+if (strlen($message) > 5000) {
+    $errors[] = 'Message must be under 5000 characters';
 }
 
 if (!empty($errors)) {
@@ -142,6 +94,10 @@ if (!empty($errors)) {
     ]);
     exit;
 }
+
+// Sanitize for logging/email
+$name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 // Send email notification via Resend
 $subject_line = "FluentLanguage.net Contact: " . getSubjectLabel($subject);
@@ -156,9 +112,18 @@ $email_body .= "Message:\n--------------\n{$message}\n";
 
 $mail_sent = sendEmailViaResend(NOTIFY_EMAIL, $subject_line, $email_body, $email);
 
-// Log submission
+// Log submission (with file locking)
 $log_file = DATA_DIR . '/contact_log.json';
-$log = file_exists($log_file) ? json_decode(file_get_contents($log_file), true) : [];
+$log = [];
+if (file_exists($log_file)) {
+    $fp = fopen($log_file, 'r');
+    if ($fp && flock($fp, LOCK_SH)) {
+        $log = json_decode(stream_get_contents($fp), true) ?: [];
+        flock($fp, LOCK_UN);
+    }
+    if ($fp) fclose($fp);
+}
+
 $log[] = [
     'name' => $name,
     'email' => $email,
@@ -166,7 +131,15 @@ $log[] = [
     'sent' => $mail_sent,
     'created_at' => date('Y-m-d H:i:s')
 ];
-file_put_contents($log_file, json_encode($log, JSON_PRETTY_PRINT));
+
+$fp = fopen($log_file, 'c');
+if ($fp && flock($fp, LOCK_EX)) {
+    ftruncate($fp, 0);
+    fwrite($fp, json_encode($log, JSON_PRETTY_PRINT));
+    fflush($fp);
+    flock($fp, LOCK_UN);
+}
+if ($fp) fclose($fp);
 
 if ($mail_sent) {
     echo json_encode([

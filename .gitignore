@@ -1,0 +1,19 @@
+# Environment / secrets
+.env
+env.php
+config/env.php
+
+# Data files (server-side only)
+data/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Old config (not needed in repo)
+fluentlanguage.net.conf
