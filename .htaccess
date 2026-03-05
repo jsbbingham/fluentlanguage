@@ -18,6 +18,17 @@
     SetHandler "proxy:unix:/var/opt/remi/php83/run/php-fpm/fluentl.sock|fcgi://localhost"
 </FilesMatch>
 
+# Explicitly allow public crawler files
+<Files "robots.txt">
+    Require all granted
+</Files>
+<Files "sitemap.xml">
+    Require all granted
+</Files>
+<Files "llms.txt">
+    Require all granted
+</Files>
+
 # Block access to sensitive files
 <FilesMatch "\.(env|json|log|conf|md|gitignore|gitattributes)$">
     Require all denied
