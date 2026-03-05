@@ -1,0 +1,16 @@
+# Enable PHP
+<IfModule mod_php7.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# PHP processing for API
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>

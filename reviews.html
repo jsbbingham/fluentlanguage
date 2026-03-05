@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews | Isela Bingham - Spanish Translator & Interpreter</title>
+    <meta name="description" content="Read reviews from clients of Isela Bingham, professional Spanish interpreter and document translator.">
+    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">Fluent<span>Language</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="reviews.html" class="active">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Client Reviews</h1>
+                <p class="page-subtitle">See what clients say about working with Isela</p>
+            </div>
+        </section>
+
+        <section class="reviews-section">
+            <div class="container">
+                <!-- Reviews Summary -->
+                <div class="reviews-summary-centered" id="reviews-summary">
+                    <div class="average-rating-display">
+                        <div class="rating-number" id="average-rating">5.0</div>
+                        <div class="rating-label">Average Rating</div>
+                        <div class="rating-stars" id="summary-stars">★★★★★</div>
+                        <div class="reviews-count">Based on <span id="total-reviews">0</span> reviews</div>
+                    </div>
+                </div>
+
+                <!-- Reviews List -->
+                <div class="reviews-list" id="reviews-container">
+                    <div class="loading">Loading reviews...</div>
+                </div>
+
+                <!-- Write Review Button -->
+                <div class="write-review-cta">
+                    <a href="#write-review" class="btn btn-primary">Write a Review</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="leave-review-section" id="write-review">
+            <div class="container">
+                <div class="review-form-card">
+                    <h2>Write a Review</h2>
+                    <p>Share your experience working with Isela</p>
+                    
+                    <form id="review-form" class="review-form">
+                        <div class="form-group">
+                            <label for="reviewer-name">Your Name (optional)</label>
+                            <input type="text" id="reviewer-name" name="name" placeholder="e.g., John Smith">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Your Rating *</label>
+                            <div class="star-rating-input">
+                                <input type="radio" id="star5" name="rating" value="5" required>
+                                <label for="star5" title="5 stars - Excellent">★</label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4" title="4 stars - Very Good">★</label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3" title="3 stars - Good">★</label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2" title="2 stars - Fair">★</label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1" title="1 star - Poor">★</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="review-text">Your Review *</label>
+                            <textarea id="review-text" name="comment" rows="5" required placeholder="Tell us about your experience working with Isela..."></textarea>
+                        </div>
+                        
+                        <!-- Honeypot field for spam prevention -->
+                        <div class="hp-field" style="display:none;">
+                            <label>Website</label>
+                            <input type="text" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Review</button>
+                    </form>
+                    
+                    <div id="form-message" class="form-message" style="display:none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Work Together?</h2>
+                <p>Contact Isela for your next translation or interpretation project.</p>
+                <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Fluent<span>Language</span></a>
+                    <p>Professional Spanish ↔ English translation and interpretation services.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="reviews.html">Reviews</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>📧 ibingham@compuprotech.com</p>
+                    <p>📍 Stockton, California</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FluentLanguage.net. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
