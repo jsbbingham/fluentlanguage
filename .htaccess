@@ -1,7 +1,17 @@
-# Enable PHP
+# Disable directory listing site-wide
+Options -Indexes
+
+# PHP settings
 <IfModule mod_php7.c>
     php_flag display_errors Off
     php_flag log_errors On
+    php_flag expose_php Off
+</IfModule>
+
+# Suppress PHP version header (PHP-FPM)
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
 </IfModule>
 
 # Security headers
@@ -10,7 +20,7 @@
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
 </IfModule>
 
 # PHP processing via PHP-FPM

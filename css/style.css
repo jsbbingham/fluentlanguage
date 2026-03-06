@@ -792,10 +792,17 @@ a:hover {
 
 /* Form Messages */
 .form-message {
+    display: none;
     margin-top: var(--space-4);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-md);
     font-weight: 500;
+}
+
+/* Honeypot fields — hidden from users, visible to bots */
+.hp-field,
+.hp-trap {
+    display: none;
 }
 
 .form-message.success {

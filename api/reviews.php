@@ -8,7 +8,6 @@ require_once __DIR__ . '/config.php';
 
 // Set CORS and content type
 setCorsHeaders();
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Content-Type: application/json');
 
 // Handle preflight

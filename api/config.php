@@ -10,6 +10,12 @@
  * That file lives OUTSIDE the web root and is never committed to git.
  */
 
+// Secure session cookie configuration — must be set before session_start()
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', '1');
+
 // Load secrets from server config (outside web root)
 $env_file = '/home/fluentl/config/env.php';
 if (file_exists($env_file)) {
