@@ -259,3 +259,21 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// Spell check language toggle (EN / ES)
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.spell-lang-toggle').forEach(toggle => {
+        toggle.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const field = document.getElementById(btn.dataset.target);
+                if (!field) return;
+                field.lang = btn.dataset.lang;
+                // Re-trigger spellcheck by briefly toggling the attribute
+                field.spellcheck = false;
+                requestAnimationFrame(() => { field.spellcheck = true; field.focus(); });
+                toggle.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    });
+});

@@ -16,7 +16,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Client Reviews | Isela Bingham - Spanish Translator & Interpreter">
     <meta name="twitter:description" content="Read reviews from clients of Isela Bingham, professional Spanish interpreter and document translator.">
-    <link rel="stylesheet" href="css/style.css?v=6">
+    <link rel="stylesheet" href="css/style.css?v=7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
@@ -173,9 +173,15 @@
 
                         <!-- Section 3: Experience -->
                         <div class="form-step">
-                            <h3 class="form-step-title">3. Share Your Experience *</h3>
+                            <h3 class="form-step-title">
+                                3. Share Your Experience *
+                                <span class="spell-lang-toggle" aria-label="Spell check language">
+                                    <button type="button" class="lang-btn active" data-lang="en" data-target="review-text">EN</button>
+                                    <button type="button" class="lang-btn" data-lang="es" data-target="review-text">ES</button>
+                                </span>
+                            </h3>
                             <div class="form-group textarea-group">
-                                <textarea id="review-text" name="comment" rows="5" required placeholder="Share your experience working with Isela..." maxlength="2000"></textarea>
+                                <textarea id="review-text" name="comment" rows="5" required placeholder="Share your experience working with Isela..." maxlength="2000" spellcheck="true" lang="en"></textarea>
                                 <div class="char-counter"><span id="char-count">0</span>/2000</div>
                             </div>
                         </div>
