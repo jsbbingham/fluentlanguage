@@ -31,7 +31,7 @@ if (!file_exists(REVIEWS_FILE)) {
 // Handle request
 $action = $_GET['action'] ?? ($_POST['action'] ?? 'list');
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' || $action === 'list') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // List reviews (read with shared lock)
     $reviews = [];
     $fp = fopen(REVIEWS_FILE, 'r');
