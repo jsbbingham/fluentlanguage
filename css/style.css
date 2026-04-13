@@ -1559,3 +1559,18 @@ a:hover {
         font-size: 2.25rem;
     }
 }
+
+/* Logo image styling */
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+.footer-brand .logo img {
+    height: 32px;
+    filter: brightness(0) invert(1);
+}
+.service-icon img {
+    width: 48px;
+    height: 48px;
+}
