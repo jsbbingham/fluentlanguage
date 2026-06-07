@@ -31,6 +31,8 @@ Isela Bingham provides bilingual Spanish-English language services to legal, med
 ## Pages
 
 - [Home](https://www.fluentlanguage.net/) — Overview of services
-- [About](https://www.fluentlanguage.net/about.html) — Background and credentials
-- [Reviews](https://www.fluentlanguage.net/reviews.html) — Client testimonials
-- [Contact](https://www.fluentlanguage.net/contact.html) — Get a quote
+- [About](https://www.fluentlanguage.net/about) — Background and credentials
+- [Reviews](https://www.fluentlanguage.net/reviews) — Client testimonials
+- [Contact](https://www.fluentlanguage.net/contact) — Get a quote
+- [Privacy Policy](https://www.fluentlanguage.net/privacy) — How personal data is handled
+- [Disclaimer](https://www.fluentlanguage.net/disclaimer) — Service terms and liability

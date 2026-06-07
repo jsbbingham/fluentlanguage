@@ -1,0 +1,86 @@
+# FluentLanguage.net — production .htaccess (ships in dist/ → public_html root)
+# Merges the hardened security posture with SPA routing for the React build.
+
+# Disable directory listing site-wide
+Options -Indexes
+
+# PHP settings
+<IfModule mod_php7.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_flag expose_php Off
+</IfModule>
+
+# Suppress PHP version header (PHP-FPM)
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    # NOTE: style-src adds 'unsafe-inline' because React + Framer Motion render
+    # element styles as inline style attributes. script-src stays strict 'self'
+    # (Vite emits an external module bundle — no inline scripts), which is the
+    # directive that actually mitigates XSS execution.
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+</IfModule>
+
+# PHP processing via PHP-FPM
+<FilesMatch "\.php$">
+    SetHandler "proxy:unix:/var/opt/remi/php83/run/php-fpm/fluentl.sock|fcgi://localhost"
+</FilesMatch>
+
+# Explicitly allow public crawler files
+<Files "robots.txt">
+    Require all granted
+</Files>
+<Files "sitemap.xml">
+    Require all granted
+</Files>
+<Files "llms.txt">
+    Require all granted
+</Files>
+
+# Block access to sensitive files
+<FilesMatch "\.(env|json|log|conf|md|gitignore|gitattributes)$">
+    Require all denied
+</FilesMatch>
+<Files "config.php">
+    Require all denied
+</Files>
+
+AddType image/svg+xml .svg .svgz
+
+# Long-cache fingerprinted build assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # --- 301 redirects: legacy .html URLs -> clean SPA routes (preserve SEO) ---
+    RewriteRule ^index\.html$ / [R=301,L]
+    RewriteRule ^(about|reviews|contact|privacy|disclaimer)\.html$ /$1 [R=301,L]
+
+    # --- Never rewrite the PHP API — let PHP-FPM handle it ---
+    RewriteRule ^api/ - [L]
+
+    # --- Existing files and directories pass through untouched ---
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # --- Everything else -> SPA entry point (React Router takes over) ---
+    RewriteRule ^ index.html [L]
+</IfModule>

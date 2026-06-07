@@ -17,3 +17,7 @@ Thumbs.db
 
 # Old config (not needed in repo)
 fluentlanguage.net.conf
+
+# Build output / deps
+node_modules/
+dist/
