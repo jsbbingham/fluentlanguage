@@ -39,8 +39,8 @@ function Hero() {
             className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70"
           >
             {BRAND.person} bridges cultures with {BRAND.yearsExperience} years of
-            court- and medical-certified experience — serving legal, medical, and
-            educational organizations across California.
+            professional experience — serving legal, medical, and educational
+            organizations across California.
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-9 flex flex-wrap gap-4">

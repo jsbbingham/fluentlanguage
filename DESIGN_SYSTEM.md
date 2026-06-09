@@ -1,7 +1,7 @@
 # FluentLanguage.net — Design System
 
 **Codename:** _Editorial Luxury_
-**For:** Isela Bingham — Court- & medical-certified Spanish ↔ English interpreter and translator, 20+ years, California.
+**For:** Isela Bingham — professional Spanish ↔ English interpreter and translator, 20+ years, California.
 
 ---
 

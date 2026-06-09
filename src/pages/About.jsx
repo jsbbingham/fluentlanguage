@@ -11,7 +11,7 @@ export default function About() {
       <PageHeader
         eyebrow="About"
         title="Two decades bridging language and trust"
-        subtitle={`${BRAND.person} — court- and medical-certified Spanish ↔ English interpreter and translator.`}
+        subtitle={`${BRAND.person} — professional Spanish ↔ English interpreter and translator.`}
       />
 
       <section className="py-20 lg:py-28">

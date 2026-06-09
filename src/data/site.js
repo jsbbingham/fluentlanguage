@@ -33,7 +33,7 @@ export const NAV = [
 
 export const TRUST = [
   { icon: ShieldCheck, label: '20+ Years Experience' },
-  { icon: Scale, label: 'Court & Medical Certified' },
+  { icon: Scale, label: 'Legal & Medical Settings' },
   { icon: MapPin, label: 'Serving California' },
   { icon: Clock, label: 'Fast Turnaround' },
 ]
@@ -68,7 +68,7 @@ export const STATS = [
 ]
 
 export const CREDENTIALS = [
-  'Certified Court Interpreter (Spanish ↔ English)',
+  'Contractor — Valley Mountain Regional Center (since 2006)',
   'Medical & Healthcare Interpretation',
   "Workers' Compensation specialization",
   'Simultaneous interpretation (100+ attendees)',
