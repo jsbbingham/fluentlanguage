@@ -35,7 +35,8 @@ export async function postForm(endpoint, form, extraFields = {}) {
   const json = await res.json()
 
   // If the token went stale (expired session), refresh once and retry.
-  if (!json.success && /reload the page/i.test(json.message || '')) {
+  // Prefer the structured error code; fall back to message text for safety.
+  if (!json.success && (json.code === 'csrf' || /reload the page/i.test(json.message || ''))) {
     const fresh = await getCsrfToken(true)
     data.set('csrf_token', fresh)
     const retry = await fetch(endpoint, {

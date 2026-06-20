@@ -11,6 +11,7 @@ function Stars({ value, size = 'h-4 w-4' }) {
       {[1, 2, 3, 4, 5].map((n) => (
         <Star
           key={n}
+          aria-hidden="true"
           className={[size, n <= value ? 'fill-saffron-400 text-saffron-400' : 'fill-ink/10 text-ink/15'].join(' ')}
         />
       ))}

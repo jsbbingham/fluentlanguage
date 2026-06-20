@@ -56,6 +56,10 @@ Options -Indexes
 
 AddType image/svg+xml .svg .svgz
 
+# Unknown URLs serve the SPA shell but with a real 404 status (avoids soft-404s).
+# React Router renders the styled NotFound page for the same paths.
+ErrorDocument 404 /index.html
+
 # Long-cache fingerprinted build assets
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -86,6 +90,9 @@ AddType image/svg+xml .svg .svgz
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # --- Everything else -> SPA entry point (React Router takes over) ---
-    RewriteRule ^ index.html [L]
+    # --- Known SPA routes -> entry point (React Router takes over, HTTP 200) ---
+    # Keep this list in sync with the routes in src/main.jsx. Anything not listed
+    # (and not an existing file above) falls through to a genuine 404, which the
+    # ErrorDocument above renders as the styled SPA NotFound page.
+    RewriteRule ^(about|reviews|contact|privacy|disclaimer)/?$ index.html [L]
 </IfModule>

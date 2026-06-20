@@ -16,9 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Create data directory if it doesn't exist
+// DATA_DIR is provisioned out-of-band, outside the web root. Attempt to create
+// it defensively but suppress the warning if the account can't (deploy prereq).
 if (!is_dir(DATA_DIR)) {
-    mkdir(DATA_DIR, 0755, true);
+    @mkdir(DATA_DIR, 0755, true);
 }
 
 define('REVIEWS_FILE', DATA_DIR . '/reviews.json');
@@ -28,9 +29,7 @@ if (!file_exists(REVIEWS_FILE)) {
     file_put_contents(REVIEWS_FILE, json_encode([]));
 }
 
-// Handle request
-$action = $_GET['action'] ?? ($_POST['action'] ?? 'list');
-
+// Handle request — GET lists public reviews; POST submits one.
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // List reviews (read with shared lock)
     $reviews = [];
@@ -59,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validateCsrfToken($csrf_token)) {
         echo json_encode([
             'success' => false,
+            'code' => 'csrf',
             'message' => 'Invalid form submission. Please reload the page and try again.'
         ]);
         exit;
@@ -136,12 +136,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($fp) fclose($fp);
 
+    // Stored raw (trimmed). reviews.json is served as JSON and rendered by React
+    // as text nodes (auto-escaped), and the notification email is text/plain —
+    // pre-encoding here only produced mojibake. Escape at any HTML output site.
     $review = [
         'id' => uniqid(),
-        'name' => htmlspecialchars($name, ENT_QUOTES, 'UTF-8'),
-        'email' => htmlspecialchars($email, ENT_QUOTES, 'UTF-8'),
+        'name' => $name,
+        'email' => $email,
         'rating' => $rating,
-        'comment' => htmlspecialchars($comment, ENT_QUOTES, 'UTF-8'),
+        'comment' => $comment,
         'sentiment' => getSentiment($rating),
         'created_at' => date('Y-m-d H:i:s')
     ];

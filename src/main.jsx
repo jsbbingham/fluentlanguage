@@ -8,6 +8,7 @@ import Reviews from './pages/Reviews.jsx'
 import Contact from './pages/Contact.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Disclaimer from './pages/Disclaimer.jsx'
+import NotFound from './pages/NotFound.jsx'
 import './index.css'
 
 const router = createBrowserRouter([
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'disclaimer', element: <Disclaimer /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ])

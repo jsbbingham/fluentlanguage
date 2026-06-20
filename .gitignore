@@ -21,3 +21,7 @@ fluentlanguage.net.conf
 # Build output / deps
 node_modules/
 dist/
+
+# Audit tool config (squirrelscan)
+squirrel.toml
+.squirrel/

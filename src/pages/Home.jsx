@@ -20,7 +20,7 @@ function Hero() {
           animate="visible"
         >
           <motion.span variants={fadeUp} className="eyebrow">
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
             Professional Translation & Interpretation
           </motion.span>
 
@@ -46,7 +46,7 @@ function Hero() {
           <motion.div variants={fadeUp} className="mt-9 flex flex-wrap gap-4">
             <Link to="/contact" className="btn-primary">
               Get a Quote
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link to="/about" className="btn-secondary">
               Learn More
@@ -61,7 +61,7 @@ function Hero() {
             {TRUST.map(({ icon: Icon, label }) => (
               <li key={label} className="flex items-center gap-2.5 text-sm text-ink/70">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-terracotta-50 text-terracotta-600">
-                  <Icon className="h-4 w-4" strokeWidth={2} />
+                  <Icon className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
                 </span>
                 {label}
               </li>
@@ -82,7 +82,7 @@ function Hero() {
             className="glass row-span-2 flex flex-col justify-between rounded-3xl p-6 shadow-float"
           >
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-accent text-white shadow-glow">
-              <Quote className="h-6 w-6" />
+              <Quote className="h-6 w-6" aria-hidden="true" />
             </div>
             <div>
               <p className="font-display text-xl leading-snug text-ink">
@@ -101,7 +101,7 @@ function Hero() {
               variants={scaleIn}
               className="glass flex flex-col gap-3 rounded-3xl p-6 shadow-elevated"
             >
-              <Icon className="h-6 w-6 text-terracotta-500" />
+              <Icon className="h-6 w-6 text-terracotta-500" aria-hidden="true" />
               <div>
                 <div className="font-display text-3xl font-semibold text-ink">
                   {value}
@@ -118,7 +118,7 @@ function Hero() {
           >
             {FOCUS_AREAS.map(({ icon: Icon, label }) => (
               <span key={label} className="chip">
-                <Icon className="h-4 w-4 text-viridian-500" />
+                <Icon className="h-4 w-4 text-viridian-500" aria-hidden="true" />
                 {label}
               </span>
             ))}
@@ -173,7 +173,7 @@ function Services() {
                   feature ? 'h-16 w-16 shrink-0' : 'h-14 w-14',
                 ].join(' ')}
               >
-                <Icon className={feature ? 'h-7 w-7' : 'h-6 w-6'} strokeWidth={1.75} />
+                <Icon className={feature ? 'h-7 w-7' : 'h-6 w-6'} strokeWidth={1.75} aria-hidden="true" />
               </div>
               <div className={feature ? '' : 'mt-5'}>
                 <h3 className="font-display text-xl font-semibold text-ink">
@@ -220,7 +220,7 @@ function CtaBand() {
         <motion.div variants={fadeUp} className="mt-10 flex justify-center">
           <Link to="/contact" className="btn-primary">
             Contact {BRAND.person.split(' ')[0]}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </motion.div>
       </motion.div>

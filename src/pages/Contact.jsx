@@ -76,7 +76,7 @@ function ContactForm() {
         </div>
 
         <button type="submit" disabled={busy} className="btn-primary w-full disabled:opacity-60">
-          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
           {busy ? 'Sending…' : 'Send Message'}
         </button>
 
@@ -102,7 +102,7 @@ function InfoCard({ icon: Icon, title, children }) {
     <div className="card p-6">
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-terracotta-50 text-terracotta-600">
-          <Icon className="h-5 w-5" />
+          <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
         <h3 className="font-display text-lg font-semibold text-ink">{title}</h3>
       </div>
@@ -134,7 +134,7 @@ export default function Contact() {
                   {BRAND.email}
                 </a>
                 <p className="mt-3 flex items-center gap-2 text-ink/55">
-                  <MapPin className="h-4 w-4" /> {BRAND.location}
+                  <MapPin className="h-4 w-4" aria-hidden="true" /> {BRAND.location}
                 </p>
               </InfoCard>
             </motion.div>

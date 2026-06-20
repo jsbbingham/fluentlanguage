@@ -17,9 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Create data directory if needed
+// DATA_DIR is provisioned out-of-band, outside the web root. Attempt to create
+// it defensively but suppress the warning if the account can't (deploy prereq).
 if (!is_dir(DATA_DIR)) {
-    mkdir(DATA_DIR, 0755, true);
+    @mkdir(DATA_DIR, 0755, true);
 }
 
 // Only allow POST
@@ -36,6 +37,7 @@ $csrf_token = $_POST['csrf_token'] ?? '';
 if (!validateCsrfToken($csrf_token)) {
     echo json_encode([
         'success' => false,
+        'code' => 'csrf',
         'message' => 'Invalid form submission. Please reload the page and try again.'
     ]);
     exit;
@@ -95,9 +97,9 @@ if (!empty($errors)) {
     exit;
 }
 
-// Sanitize for logging/email
-$name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+// Note: values are stored raw (trimmed). The email is sent as text/plain and
+// the log is JSON — neither is an HTML sink — so pre-encoding only produced
+// mojibake (e.g. "O&#039;Brien"). Any HTML rendering must escape at output.
 
 // Send email notification via Resend
 $subject_line = "FluentLanguage.net Contact: " . getSubjectLabel($subject);

@@ -29,9 +29,8 @@ export default function Privacy() {
       <H3>Information You Provide</H3>
       <UL>
         <li>
-          <strong>Contact Form:</strong> Your name, email address, phone number
-          (optional), and message content when you submit a quote or inquiry
-          request.
+          <strong>Contact Form:</strong> Your name, email address, and message
+          content when you submit a quote or inquiry request.
         </li>
         <li>
           <strong>Review Form:</strong> Your name (optional), email address, star
