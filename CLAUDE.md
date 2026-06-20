@@ -42,10 +42,11 @@ Vite copies everything in `public/` to the build root. That's where the producti
 
 ### `.htaccess` gotchas (both bit us)
 
-`public/.htaccess` carries SPA routing **and** the hardened security posture. Two non-obvious constraints:
+`public/.htaccess` carries SPA routing **and** the hardened security posture. Three non-obvious constraints:
 
 1. **CSP `style-src` must include `'unsafe-inline'`** — React/Framer Motion render element styles as inline `style` attributes. `script-src` stays strict `'self'` (Vite emits an external module bundle, no inline scripts) — keep it that way.
-2. **Order the SPA fallback after guarded redirects.** The fallback `RewriteRule ^ index.html [L]` causes mod_rewrite to restart the ruleset in per-directory context, so any unguarded `index.html → /` (or `*.html → clean`) redirect re-fires and 301-loops every route back to `/`. The `.html`→clean and `index.html`→`/` redirects are guarded with `RewriteCond %{THE_REQUEST}` so they only match real client requests.
+2. **Order the SPA route rules after guarded redirects.** The SPA rewrite causes mod_rewrite to restart the ruleset in per-directory context, so any unguarded `index.html → /` (or `*.html → clean`) redirect re-fires and 301-loops every route back to `/`. The `.html`→clean and `index.html`→`/` redirects are guarded with `RewriteCond %{THE_REQUEST}` so they only match real client requests.
+3. **No catch-all SPA fallback — use a route allowlist + `ErrorDocument 404` (avoids soft-404s).** A blanket `RewriteRule ^ index.html [L]` rewrites *every* unknown URL to `index.html` with HTTP **200**, so junk paths (and the WordPress/Yoast sitemap names crawlers probe — `sitemap_index.xml`, `news-sitemap.xml`, …) returned `200 + HTML` instead of `404`. Google flags these soft-404s and a squirrelscan audit fails `crawl/sitemap-valid`. The fix: only rewrite the **known clean routes** to `index.html` (`RewriteRule ^(about|reviews|contact|privacy|disclaimer)/?$ index.html [L]`), let everything else fall through to a real 404, and add `ErrorDocument 404 /index.html` so that 404 still renders the styled SPA NotFound page (React Router has a `path: '*'` catch-all). **Trade-off:** the route list in `.htaccess` must be kept in sync with the routes in `src/main.jsx` — adding a page means editing both (comments in each spot flag this). Verified live: known routes 200, unknown 404; squirrelscan 95→99.
 
 ## Deploy ("make live")
 
