@@ -3,8 +3,8 @@
 env.php
 config/env.php
 
-# Data files (server-side only)
-data/
+# Data files (server-side only) — anchored so src/data/ stays tracked
+/data/
 *.log
 
 # OS files
