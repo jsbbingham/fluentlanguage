@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Clock, Send, Loader2, Languages } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 import { fadeUp, stagger, inViewProps } from '../lib/motion.js'
 import { postForm } from '../lib/api.js'
 import { CONTACT_SUBJECTS, FOCUS_AREAS, BRAND } from '../data/site.js'
@@ -47,7 +49,12 @@ function ContactForm() {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-7 space-y-5" noValidate>
-        <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+        {/* Honeypot — display:none hides it from users and assistive tech;
+            bots parsing the raw form still fill it. */}
+        <div className="hidden">
+          <label htmlFor="c-website">Leave this field empty</label>
+          <input id="c-website" type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
@@ -114,6 +121,7 @@ function InfoCard({ icon: Icon, title, children }) {
 export default function Contact() {
   return (
     <>
+      <Seo {...PAGE_SEO.contact} />
       <PageHeader
         eyebrow="Contact"
         title="Let's discuss your needs"

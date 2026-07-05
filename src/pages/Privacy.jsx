@@ -1,8 +1,11 @@
 import { LegalPage, Lead, H2, H3, P, UL } from '../components/LegalPage.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 
 export default function Privacy() {
   return (
     <LegalPage eyebrow="Legal" title="Privacy Policy" updated="March 6, 2026">
+      <Seo {...PAGE_SEO.privacy} />
       <Lead>
         FluentLanguage.net is operated by Isela Bingham, a professional Spanish
         interpreter and translator based in Stockton, California. This Privacy

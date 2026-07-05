@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Home, ArrowRight } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 
 // Rendered for any unmatched route. The server returns a real HTTP 404 for
 // these paths (see public/.htaccess ErrorDocument), so this is not a soft-404.
 export default function NotFound() {
   return (
     <>
+      <Seo {...PAGE_SEO.notFound} />
       <PageHeader
         eyebrow="404"
         title="Page not found"

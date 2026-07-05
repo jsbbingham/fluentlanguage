@@ -2,8 +2,22 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, Quote } from 'lucide-react'
 import HeroBackdrop from '../components/HeroBackdrop.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 import { fadeUp, scaleIn, stagger, inViewProps } from '../lib/motion.js'
-import { SERVICES, TRUST, STATS, FOCUS_AREAS, BRAND } from '../data/site.js'
+import { SERVICES, TRUST, STATS, FOCUS_AREAS, BRAND, FAQS } from '../data/site.js'
+
+// FAQPage schema mirrors the visible FAQ section below — keep them in sync
+// by deriving both from the same FAQS array.
+const FAQ_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
 
 /* ------------------------------- HERO ---------------------------------- */
 
@@ -191,6 +205,42 @@ function Services() {
   )
 }
 
+/* ------------------------------- FAQ ----------------------------------- */
+
+function Faq() {
+  return (
+    <section className="py-24 lg:py-32" aria-labelledby="faq-heading">
+      <div className="container-x">
+        <motion.div {...inViewProps} variants={stagger(0.08)} className="max-w-2xl">
+          <motion.span variants={fadeUp} className="eyebrow">
+            Common Questions
+          </motion.span>
+          <motion.h2
+            id="faq-heading"
+            variants={fadeUp}
+            className="mt-4 font-display text-display-md font-semibold text-ink"
+          >
+            Frequently asked questions
+          </motion.h2>
+        </motion.div>
+
+        <motion.div
+          {...inViewProps}
+          variants={stagger(0.07, 0.1)}
+          className="mt-12 grid gap-5 md:grid-cols-2"
+        >
+          {FAQS.map(({ q, a }) => (
+            <motion.article key={q} variants={fadeUp} className="card p-7">
+              <h3 className="font-display text-lg font-semibold text-ink">{q}</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink/65">{a}</p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 /* ------------------------------- CTA ----------------------------------- */
 
 function CtaBand() {
@@ -231,8 +281,10 @@ function CtaBand() {
 export default function Home() {
   return (
     <>
+      <Seo {...PAGE_SEO.home} jsonLd={FAQ_JSONLD} />
       <Hero />
       <Services />
+      <Faq />
       <CtaBand />
     </>
   )

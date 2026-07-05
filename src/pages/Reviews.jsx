@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Star, Loader2, MessageSquare, AlertTriangle } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 import { fadeUp, stagger, inViewProps } from '../lib/motion.js'
 import { postForm } from '../lib/api.js'
 
@@ -104,7 +106,12 @@ function ReviewForm({ onSubmitted }) {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         {/* Honeypot */}
-        <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+        {/* Honeypot — display:none hides it from users and assistive tech;
+            bots parsing the raw form still fill it. */}
+        <div className="hidden">
+          <label htmlFor="r-website">Leave this field empty</label>
+          <input id="r-website" type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </div>
 
         <div>
           <label className="mb-2 block text-sm font-medium text-ink">Your rating</label>
@@ -222,6 +229,7 @@ export default function Reviews() {
 
   return (
     <>
+      <Seo {...PAGE_SEO.reviews} />
       <PageHeader
         eyebrow="Reviews"
         title="Trusted by clients across California"
@@ -254,7 +262,7 @@ export default function Reviews() {
           {state === 'error' && (
             <div className="mx-auto max-w-md py-12 text-center text-ink/55">
               <AlertTriangle className="mx-auto mb-3 h-10 w-10 text-warning" />
-              <h3 className="font-display text-xl text-ink">Unable to load reviews</h3>
+              <p className="font-display text-xl text-ink">Unable to load reviews</p>
               <p className="mt-1">Please try again later.</p>
             </div>
           )}
@@ -262,7 +270,7 @@ export default function Reviews() {
           {state === 'empty' && (
             <div className="mx-auto max-w-md py-12 text-center text-ink/55">
               <MessageSquare className="mx-auto mb-3 h-10 w-10 text-terracotta-300" />
-              <h3 className="font-display text-xl text-ink">No reviews yet</h3>
+              <p className="font-display text-xl text-ink">No reviews yet</p>
               <p className="mt-1">Be the first to share your experience.</p>
             </div>
           )}

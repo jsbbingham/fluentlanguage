@@ -2,12 +2,15 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, Award } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 import { fadeUp, stagger, inViewProps } from '../lib/motion.js'
 import { CREDENTIALS, FOCUS_AREAS, AFFILIATIONS, PORTRAIT, BRAND } from '../data/site.js'
 
 export default function About() {
   return (
     <>
+      <Seo {...PAGE_SEO.about} />
       <PageHeader
         eyebrow="About"
         title="Two decades bridging language and trust"
@@ -76,7 +79,8 @@ export default function About() {
                   src={PORTRAIT}
                   alt={`${BRAND.person}, Spanish ↔ English interpreter and translator`}
                   className="aspect-[4/5] w-full object-cover"
-                  loading="lazy"
+                  width="527"
+                  height="1280"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-5">
                   <div className="font-display text-lg font-semibold text-white">{BRAND.person}</div>

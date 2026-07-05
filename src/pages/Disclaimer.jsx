@@ -1,8 +1,11 @@
 import { LegalPage, Lead, H2, P, UL } from '../components/LegalPage.jsx'
+import Seo from '../lib/Seo.jsx'
+import { PAGE_SEO } from '../data/seo.js'
 
 export default function Disclaimer() {
   return (
     <LegalPage eyebrow="Legal" title="Disclaimer & Liability" updated="March 6, 2026">
+      <Seo {...PAGE_SEO.disclaimer} />
       <Lead>
         Please read this Disclaimer carefully before using the services of Isela
         Bingham (FluentLanguage.net). By engaging translation or interpretation

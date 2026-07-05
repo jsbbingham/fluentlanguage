@@ -21,9 +21,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
               Quick Links
-            </h4>
+            </h3>
             <ul className="mt-4 space-y-2.5">
               {NAV.map((item) => (
                 <li key={item.to}>
@@ -39,9 +39,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
               Contact
-            </h4>
+            </h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <a

@@ -4,6 +4,11 @@
 # Disable directory listing site-wide
 Options -Indexes
 
+# The prerender step creates real <route>/ directories; without this, mod_dir
+# 301s /about -> /about/ before the rewrite below can serve the snapshot,
+# breaking the canonical extensionless URLs.
+DirectorySlash Off
+
 # PHP settings
 <IfModule mod_php7.c>
     php_flag display_errors Off
@@ -56,13 +61,21 @@ Options -Indexes
 
 AddType image/svg+xml .svg .svgz
 
-# Unknown URLs serve the SPA shell but with a real 404 status (avoids soft-404s).
-# React Router renders the styled NotFound page for the same paths.
-ErrorDocument 404 /index.html
+# Unknown URLs serve the pristine SPA shell (404.html, written by the prerender
+# step) with a real 404 status — avoids soft-404s. React Router renders the
+# styled NotFound page for the same paths.
+ErrorDocument 404 /404.html
+<Files "404.html">
+    <IfModule mod_headers.c>
+        Header set X-Robots-Tag "noindex"
+    </IfModule>
+</Files>
 
-# Long-cache fingerprinted build assets
+# Long-cache fingerprinted build assets; short browser cache for HTML so
+# redeployed prerendered pages pick up quickly.
 <IfModule mod_expires.c>
     ExpiresActive On
+    ExpiresByType text/html "access plus 10 minutes"
     ExpiresByType text/css "access plus 1 year"
     ExpiresByType application/javascript "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 month"
@@ -85,14 +98,17 @@ ErrorDocument 404 /index.html
     # --- Never rewrite the PHP API — let PHP-FPM handle it ---
     RewriteRule ^api/ - [L]
 
+    # --- Known SPA routes -> their prerendered snapshots (HTTP 200) ---
+    # The build prerenders each route to <route>/index.html so crawlers get
+    # full static HTML. This rule runs BEFORE the -d passthrough so Apache
+    # doesn't 301 /about -> /about/ via DirectorySlash. Keep this list in sync
+    # with the routes in src/main.jsx and scripts/prerender.mjs. Anything not
+    # listed (and not an existing file below) falls through to a genuine 404,
+    # which the ErrorDocument above renders as the styled SPA NotFound page.
+    RewriteRule ^(about|reviews|contact|privacy|disclaimer)/?$ $1/index.html [L]
+
     # --- Existing files and directories pass through untouched ---
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
-
-    # --- Known SPA routes -> entry point (React Router takes over, HTTP 200) ---
-    # Keep this list in sync with the routes in src/main.jsx. Anything not listed
-    # (and not an existing file above) falls through to a genuine 404, which the
-    # ErrorDocument above renders as the styled SPA NotFound page.
-    RewriteRule ^(about|reviews|contact|privacy|disclaimer)/?$ index.html [L]
 </IfModule>

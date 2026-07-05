@@ -90,6 +90,35 @@ export const AFFILIATIONS = [
   'Now Interpreters',
 ]
 
+// Rendered on Home and mirrored into FAQPage structured data — answers must
+// stay factual and consistent with the rest of the site copy.
+export const FAQS = [
+  {
+    q: 'What language services does Isela Bingham offer?',
+    a: 'Spanish–English document translation and live interpretation — simultaneous, consecutive, and sight — for legal, medical, and educational settings, in person or virtual.',
+  },
+  {
+    q: 'What types of documents can be translated?',
+    a: 'Medical reports, psychological evaluations, IEPs, IFSPs, IPPs, and legal documents, translated in either direction between Spanish and English.',
+  },
+  {
+    q: 'What areas does Isela serve?',
+    a: 'Isela is based in Stockton, California and works with organizations across the state. Virtual interpretation is available regardless of location.',
+  },
+  {
+    q: 'Does Isela handle legal and court settings?',
+    a: "Yes — workers' compensation matters, attorney support, and court proceedings, handled with precise legal terminology in both languages.",
+  },
+  {
+    q: 'Is medical interpretation handled confidentially?',
+    a: 'Yes. Healthcare interpretation and medical document translation are handled with HIPAA-aware practices and cultural fluency.',
+  },
+  {
+    q: 'How do I request a quote?',
+    a: 'Use the contact form to describe your project — document translation, interpretation, legal, or medical — and Isela will respond within 24–48 hours.',
+  },
+]
+
 export const CONTACT_SUBJECTS = [
   { value: 'translation', label: 'Document Translation' },
   { value: 'interpretation', label: 'Interpretation Services' },
